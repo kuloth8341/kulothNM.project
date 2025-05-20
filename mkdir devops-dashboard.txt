@@ -1,0 +1,5 @@
+mkdir devops-dashboard
+cd devops-dashboard
+python -m venv venv
+source venv/bin/activate
+pip install flask prometheus_client

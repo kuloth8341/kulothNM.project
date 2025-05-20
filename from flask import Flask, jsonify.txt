@@ -1,0 +1,24 @@
+from flask import Flask, jsonify
+from prometheus_client import Counter, generate_latest
+
+app = Flask(__name__)
+
+# Custom metric: number of deployments
+deployment_counter = Counter('deployment_count', 'Number of deployments triggered')
+
+@app.route('/')
+def index():
+    return "Cloud-Agnostic DevOps Dashboard API"
+
+@app.route('/deploy', methods=['POST'])
+def deploy():
+    deployment_counter.inc()  # increment metric
+    # Simulate deployment trigger
+    return jsonify({'message': 'Deployment triggered successfully'}), 200
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest(), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
